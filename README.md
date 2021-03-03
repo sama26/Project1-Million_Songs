@@ -8,6 +8,20 @@ The analytics team is particularly interested in understanding what songs users 
 
 They'd like a data engineer to create a Postgres database with tables designed to optimize queries on song play analysis.
 
+### Repo Contents
+
+README.md : This file, explaining the purpose and usage of the Repo
+
+create_tables.py : Creates the required tables within a local Postgres database
+
+etl.ipynb : A notebook used to explore the stages of the ETL pipeline, for troubleshooting or development
+
+etl.py : The pipeline itself; this loads the datafiles into the postgres database
+
+sql_queries.py : A list of the SQL queries to be used to create tables and load data
+
+test.ipynb : A notebook used to test the ETL pipeline
+
 ### Built With
 
 * Python, inc. pandas, psycopg2
@@ -34,7 +48,15 @@ To get a local copy up and running follow these simple steps.
 
 ## Usage
 
-To use this code you will need to have locally saved copies of the test song data provided by Udacity:
+1. Ensure the json files to be processed are present in a ./data folder
+
+2. Ensure a local postgres server is running
+
+3. Run 'create_tables.py' to create the postgres create_tables
+
+4. Run etl.py to initiate the ETL pipeline
+
+Note - To use this code you will need to have locally saved copies of the test song data provided by Udacity:
 
 ###### Song Dataset
 

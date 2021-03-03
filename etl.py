@@ -6,6 +6,16 @@ from sql_queries import *
 
 
 def process_song_file(cur, filepath):
+    """
+    Opens song files from /Data directory and loads into the song_data and artist_data dataframes as relevant
+
+    Data  is then loaded into Postgres 'song' and 'artist' tables
+
+        Parameters:
+        cur: cursor for  the postgres database
+        filepath: location of data files on drive
+
+    """
     # open song file
     df = pd.read_json(filepath, lines=True)
 
@@ -20,6 +30,18 @@ def process_song_file(cur, filepath):
 
 
 def process_log_file(cur, filepath):
+    """
+    Opens log files from /Data directory and loads into a dataframe
+
+    Timestamp field is then converted from UNIX time to a timestamp, and then split into component parts
+
+    Data is then loaded into the time, user and songplay tables
+
+        Parameters:
+        cur: cursor for  the postgres database
+        filepath: location of log files on drive
+
+    """
     # open log file
     df = pd.read_json(filepath, lines=True)
 
@@ -47,7 +69,7 @@ def process_log_file(cur, filepath):
 
     # insert songplay records
     for index, row in df.iterrows():
-        
+
         # get songid and artistid from song and artist tables
         cur.execute(song_select, (row.artist, row.song, row.length))
 
@@ -64,6 +86,18 @@ def process_log_file(cur, filepath):
 
 
 def process_data(cur, conn, filepath, func):
+    """
+    Iterates through the data directory on disk with a json extension to produce a list of files to be processed
+
+    Calls process_song_file and process_log_file functions to process those files
+
+        Parameters:
+        cur: cursor for  the postgres database
+        conn: connection to postgres database
+        filepath: location of data files to be processed
+        func: which function should be called; process_song_file or process_log_file
+
+    """
     # get all files matching extension from directory
     all_files = []
     for root, dirs, files in os.walk(filepath):
@@ -83,6 +117,12 @@ def process_data(cur, conn, filepath, func):
 
 
 def main():
+    """
+   Establishes the environment based on postgres database to be used, and data files to be processed.
+
+   Initiates processing
+
+    """
     conn = psycopg2.connect("host=127.0.0.1 dbname=sparkifydb user=student password=student")
     cur = conn.cursor()
 
