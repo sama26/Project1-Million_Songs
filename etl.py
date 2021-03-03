@@ -27,9 +27,8 @@ def process_log_file(cur, filepath):
     df = df[(df.page == 'NextSong')]
 
     # convert timestamp column to datetime
-    df['ts'] = pd.to_datetime(df['ts'], unit='ms')
-    t = df['ts']
-    
+    t = pd.to_datetime(df['ts'], unit='ms')
+
     # insert time data records
     time_data = [t.dt.time, t.dt.hour, t.dt.day, t.dt.isocalendar().week, t.dt.month, t.dt.year, t.dt.dayofweek]
     column_labels = ['start_time', 'hour', 'day', 'week', 'month', 'year', 'weekday']
